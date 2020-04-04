@@ -1,0 +1,85 @@
+---
+title: "Descriptive Statistics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+<b>Normal Distribution</b>
+<a href='https://www.tutorialspoint.com/r/r_normal_distribution.htm'>Documentation</a>
+Generate a normal distribution
+```{r}
+mu <- 10
+sd <- 2
+norm_dist <- rnorm(100, mu, sd)
+hist(norm_dist, main='Normal Distribution')
+```
+
+Plot the probability of different values in a normal distribution (with given mu and sd)
+```{r}
+nums <- seq(1,50, by=1)
+probs <- dnorm(nums, mu, sd)
+plot (nums, probs, type='l')
+```
+
+Find the probability of a normal distributed random number which follows a distribution of mu and sigma to be less than 10.
+```{r}
+random_num <- 10
+prob <- pnorm(random_num, mu, sd)
+print (prob)
+```
+
+Find the probability of a list of normal distributed random numbers which follow a distribution of mu and sigma to be less than 10.
+```{r}
+random_nums <- seq(-20,20,by=0.5)
+probs <- pnorm(random_nums, mu, sd)
+plot (random_nums, probs, type='l')
+```
+
+Find a number from a normal distribution (with mu and sd) whose probability is some given value
+```{r}
+prob <- 0.9
+random_num <- qnorm(prob)
+print (random_num)
+```
+
+<b>Binomal Distribution</b>
+<a href='https://www.tutorialspoint.com/r/r_binomial_distribution.htm'>Documentation</a>
+<br/>
+
+Generate a Binomial Distribution
+```{r}
+num_success <- 50
+num_trials <- 100
+prob_succ <- 0.8
+rbinom(num_success, num_trials, prob_succ)
+```
+
+Since binomial distribution is for discrete random variables we can generate pmf for binomial distribution for a given number of trials (num_trials) & success probability (prob_succ)
+```{r}
+num_success <- seq(1,100, by=1)
+binom_dist <- dbinom(num_success, num_trials, prob_succ)
+plot (num_success, binom_dist, type='l')
+```
+<b>POisson Distribution</b>
+<a href='https://www.tutorialspoint.com/r/r_poisson_distribution.htm'>Documentation</a>
+<br/>
+
+Generate a Poisson Distribution
+```{r}
+lambda <- 100
+rpois(100, lambda)
+```
+
+Since poisson distribution gives discrete random variables we can generate pmf for such distribution with a given lambda
+```{r}
+random_nums <- seq(1,60, by=1)
+pois_dist <- dpois(random_nums, lambda = lambda)
+plot (random_nums, pois_dist, type='l')
+```
+
+Show sample mean follows normal distribution if sample is selected from normal/binomal/poisson distribution
