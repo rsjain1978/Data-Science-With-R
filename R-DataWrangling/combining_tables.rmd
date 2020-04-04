@@ -1,0 +1,121 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(dplyr)
+library(dslabs)
+data ("murders")
+head (murders)
+data(polls_us_election_2016)
+head (polls_us_election_2016)
+```
+
+Using bind_cols to combine two objects column-wise
+``` {r}
+tab1 <- murders[1:2]
+tab2 <- murders[3:4]
+final <- bind_cols(tab1, tab2) 
+head (final)
+```
+Using bind_rows to combine two objects row-wise
+``` {r}
+tab1 <- murders[1:2,]
+tab2 <- murders[10:12,]
+final <- bind_rows(tab1, tab2)
+print (final)
+```
+using intersect and union
+``` {r}
+tab1 <- murders[1:2,] #first two rows
+tab2 <- murders[2:3,] #second and third row
+
+u <- union(tab1, tab2)
+print (u)
+
+i <- intersect(tab1, tab2)
+print (i)
+```
+```{r}
+setequal(tab1, tab2)
+```
+
+Exercise questions
+```{r}
+# join the murders table and US election results table
+tab <- left_join(murders, results_us_election_2016, by = "state")
+head(tab)
+
+# make two smaller tables to demonstrate joins
+tab_1 <- slice(murders, 1:5) %>% select(state, population)
+tab_1
+tab_2 <- slice(results_us_election_2016, c(1:3, 5, 7:8)) %>% select(state, electoral_votes)
+tab_2
+
+dat1 <- left_join(tab_1, tab_2, by='state')
+print (dim(left_join(tab_1, tab_2, by='state')))
+
+dat2 <- right_join(tab_1, tab_2, by='state')
+print (dim(dat2))
+
+dat3 <- semi_join(tab_1, tab_2, by='state')
+print (dim(dat3))
+```
+
+We have two simple tables, shown below, with columns x and y:
+
+```{r}
+x <- c('a','b')
+y <- c('a','a')
+df1 <- data.frame(x,y)
+
+x <- c('a','a')
+y <- c('a','b')
+df2 <- data.frame(x,y)
+
+setdiff(df1, df2)
+
+```
+
+Install and load the Lahman library. This library contains a variety of datasets related to US professional baseball. We will use this library for the next few questions and will discuss it more extensively in the Regression course. For now, focus on wrangling the data rather than understanding the statistics.
+
+The Batting data frame contains the offensive statistics for all baseball players over several seasons.  Filter this data frame to define top as the top 10 home run (HR) hitters in 2016:
+
+```{r}
+library(Lahman)
+top <- Batting %>% 
+  filter(yearID == 2016) %>%
+  arrange(desc(HR)) %>%    # arrange by descending HR count
+  slice(1:10)    # take entries 1-10
+top %>% as_tibble()
+Master %>% as_tibble()
+
+top_names <- top %>% left_join(Master) %>%
+    select(playerID, nameFirst, nameLast, HR)
+
+print(top_names)
+
+top_salary <- Salaries %>% filter(yearID == 2016) %>%right_join(top_names) %>%
+  select(nameFirst, nameLast, teamID, HR, salary)
+```
+
+Inspect the AwardsPlayers table. Filter awards to include only the year 2016.
+How many players from the top 10 home run hitters won at least one award in 2016?
+How many players won an award in 2016 but were not one of the top 10 home run hitters in 2016?
+
+```{r}
+a_2016 <- AwardsPlayers %>% filter(yearID == 2016)
+
+intersect(a_2016$playerID, top_names$playerID)
+```
