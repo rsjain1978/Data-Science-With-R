@@ -1,0 +1,34 @@
+
+RAFAEL IRIZARRY: Before we continue describing regression,
+let's go over a reminder about random variability.
+In most data science applications, we do not observe the population, but rather
+a sample.
+As with the average and standard deviation,
+the sample correlation is the most commonly used estimate
+of the population correlation.
+This implies that the correlation we compute and use as a summary
+is a random variable.
+As an illustration, let's assume that the 179 pairs of fathers and sons
+is our entire population.
+A less fortunate geneticist can only afford
+to take a random sample of 25 pairs.
+The sample correlation for this random sample can be computed using this code.
+Here, the variable R is the random variable.
+We can run a monte-carlo simulation to see the distribution
+of this random variable.
+Here, we recreate R 1000 times, and plot its histogram.
+We see that the expected value is the population correlation,
+the mean of these Rs is 0.5, and that it has a relatively high standard error
+relative to its size, SD 0.147.
+This is something to keep in mind when interpreting correlations.
+It is a random variable, and it can have a pretty large standard error.
+Also note that because the sample correlation is
+an average of independent draws, the Central Limit Theorem actually applies.
+Therefore, for a large enough sample size N, the distribution of these Rs
+is approximately normal.
+The expected value we know is the population correlation.
+The standard deviation is somewhat more complex to derive,
+but this is the actual formula here.
+In our example, N equals to 25, does not appear
+to be large enough to make the approximation
+a good one, as we see in this QQ-plot.
