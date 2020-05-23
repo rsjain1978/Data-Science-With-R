@@ -13,3 +13,7 @@ print (table(heights$sex))
 # find count of heights which have just 1 occurence
 tab <- table(x)
 sum (tab==1)
+
+library(gtools)
+nrow(permutations(6,2))
+nrow(combinations(6,2))

@@ -1,7 +1,7 @@
 library(tidyverse)
 
 #change working directory and list files
-setwd('C:\\MachineLearning\\repos\\harvardx\\Data-Science-With-R\\R_DataWrangling\\data')
+setwd('C:\\MachineLearning\\repos\\harvardx\\Data-Science-With-R\\R-DataWrangling\\data')
 cwd <- getwd()
 list.files(cwd)
 

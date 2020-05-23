@@ -48,3 +48,41 @@ compute_probability <- function (n) {
 probs <- sapply (n_times_monte_carlo_simulation, compute_probability)
 df <- data.frame (NumSimulationRuns=n_times_monte_carlo_simulation, Probability=probs)
 p <- df %>% ggplot(aes(NumSimulationRuns, Probability)) + geom_point()
+
+
+# Permutations
+library (gtools)
+results <- permutations(8,3)
+nrow (results)
+
+#Run a Monte Carlo simulation on this vector representing the countries of the 8 runners in this race:
+B <- 10000
+set.seed(1)
+runners <- c("Jamaica", "Jamaica", "Jamaica", "USA", "Ecuador", "Netherlands", "France", "South Africa")
+
+results <- replicate(B, {
+    sample <- sample(runners, 3)
+    success <- sum(sample == 'Jamaica')==3
+  })
+
+mean (results)
+
+library(tidyverse)
+head(esoph)
+str (esoph)
+
+
+
+tmp<- esoph %>% filter (alcgp=='120+') %>% summarise (ncases,ncontrols)
+sum(tmp$ncases)/(sum(tmp$ncontrols)+sum(tmp$ncases))
+
+tmp<- esoph %>% filter (alcgp=='0-39g/day') %>% select (ncases,ncontrols)
+sum(tmp$ncases)/(sum(tmp$ncontrols)+sum(tmp$ncases))
+
+top_alc_smk = esoph %>% filter (alcgp=='120+' | tobgp=='30+') %>% select (ncases) %>% sum()
+top_alc_smk/sum(esoph$ncases)
+
+top_alc_cases = esoph %>% filter (alcgp=='120+') %>% select (ncases) %>% sum()
+top_alc_controls = esoph %>% filter (alcgp=='120+') %>% select (ncontrols) %>% sum()
+
+top_alc_controls/top_alc_cases

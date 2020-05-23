@@ -1,6 +1,15 @@
 #load specific library
 library("dslabs")
 
+#load heights data
+data ('heights')
+
+head (heights)
+
+heights_of_females <- filter (heights, sex=='Female')
+
+head (heights_of_females)
+
 #load murders dataframe
 data("murders")
 
